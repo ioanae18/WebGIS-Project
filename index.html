@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>GIS - Final Project</title>
+
+    <style>
+        html,
+        body,
+        #divView {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.17/"></script>
+
+    <script>
+        require(["esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleFillSymbol", "esri/renderers/ClassBreaksRenderer",
+            "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/Locate", "esri/Graphic", "esri/widgets/ScaleBar", "esri/widgets/Home",
+            "esri/widgets/Measurement", "esri/widgets/Print", "esri/widgets/Compass", "esri/widgets/Attribution",
+            "esri/widgets/Expand", "esri/widgets/BasemapGallery", "esri/widgets/Search", "esri/widgets/Track", "esri/widgets/Bookmarks",
+            "esri/widgets/CoordinateConversion"],
+            function (Map, MapView, FeatureLayer, SimpleMarkerSymbol, SimpleFillSymbol, ClassBreaksRenderer, Legend, LayerList, Locate, Graphic, ScaleBar,
+                Home, Measurement, Print, Compass, Attribution, Expand, BasemapGallery, Search, Track, Bookmarks, CoordinateConversion) {
+
+                var harta = new Map({
+                    basemap: "topo-vector"
+                });
+
+                var viewHarta = new MapView({
+                    map: harta,
+                    container: "divView",
+                    center: [25, 46],
+                    zoom: 7
+                });
+
+                var simbolImplicit = {
+                    type: "simple-marker",
+                    style: "square",
+                    color: "#F8F891",
+                    size: "25px",
+                    outline: { color: "#CACA1E", width: 2 }
+                };
+
+                var simbolEoliene =
+                {
+                    type: "simple-marker",
+                    style: "triangle",
+                    color: "#0AC8D1",
+                    size: "25px",
+                    outline: { color: "#1F9F76", width: 2 }
+                };
+
+                var simbolEoliene2 =
+                {
+                    type: "simple-marker",
+                    style: "circle",
+                    color: "#0AC8D1",
+                    size: "25px",
+                    outline: { color: "#07A1EC", width: 2 }
+                };
+
+                var simbolEoliene3 =
+                {
+                    type: "simple-marker",
+                    style: "square",
+                    color: "#EA29B5",
+                    size: "25px",
+                    outline: { color: "#731659", width: 2 }
+                };
+
+                var simbolEoliene4 =
+                {
+                    type: "simple-marker",
+                    style: "square",
+                    color: "#B481E8",
+                    size: "25px",
+                    outline: { color: "#47127C", width: 2 }
+                };
+
+                var simbolEoliene5 =
+                {
+                    type: "simple-marker",
+                    style: "circle",
+                    color: "#EE6AE2",
+                    size: "25px",
+                    outline: { color: "#900C3F", width: 2 }
+                };
+
+                var simbolEoliene6 =
+                {
+                    type: "simple-marker",
+                    style: "circle",
+                    color: "#EE6A86",
+                    size: "25px",
+                    outline: { color: "#900C3F", width: 2 }
+                };
+
+                var simbolEoliene7 =
+                {
+                    type: "simple-marker",
+                    style: "circle",
+                    color: "#5E67AC",
+                    size: "25px",
+                    outline: { color: "#000F83", width: 2 }
+                };
+
+                var afisareSimboluriEoliene =
+                {
+                    type: "unique-value",
+                    field: "stare",
+                    label: "Stare",
+                    defaultSymbol: simbolImplicit,
+                    defaultLabel: "Eoliene",
+                    uniqueValueInfos: [
+                        {
+                            value: "In constructie",
+                            symbol: simbolEoliene,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Constructie",
+                            symbol: simbolEoliene,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Proiect - 2012",
+                            symbol: simbolEoliene2,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Operational - 2011",
+                            symbol: simbolEoliene3,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Operational - 2010",
+                            symbol: simbolEoliene4,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Proiect - Aprobat",
+                            symbol: simbolEoliene5,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Proiect - Comandat",
+                            symbol: simbolEoliene6,
+                            lable: "Parc eolian"
+                        },
+                        {
+                            value: "Proiect - Propus",
+                            symbol: simbolEoliene7,
+                            lable: "Parc eolian"
+                        }
+                    ]
+                };
+
+                var simbolJudetEolieneImplicit_0 = {
+                    type: "simple-fill",
+                    color: "#BDF5FF",
+                    style: "solid",
+                    outline: {color: [0, 112, 200, 0.5], width: 2}
+                };
+
+                var simbolJudetEolieneImplicit_26 = {
+                    type: "simple-fill",
+                    color: "#A0EFFE",
+                    style: "solid",
+                    outline: {color: [0, 112, 200, 0.5], width: 2}
+                };
+
+                var simbolJudetEolieneImplicit_51 = {
+                    type: "simple-fill",
+                    color: "#84ECFE",
+                    style: "solid",
+                    outline: {color: [0, 112, 200, 0.5], width: 2}
+                };
+
+                var rendererJudete = new ClassBreaksRenderer(
+                    {
+                        type: "class-breaks",
+                        field: "comune"
+                    }
+                );
+
+                rendererJudete.addClassBreakInfo(
+                    {
+                        minValue: 0,
+                        maxValue: 39,
+                        symbol: simbolJudetEolieneImplicit_0
+                    }
+                );
+
+                rendererJudete.addClassBreakInfo(
+                    {
+                        minValue: 40,
+                        maxValue: 70,
+                        symbol: simbolJudetEolieneImplicit_26
+                    }
+                );
+
+                rendererJudete.addClassBreakInfo(
+                    {
+                        minValue: 71,
+                        maxValue: 95,
+                        symbol: simbolJudetEolieneImplicit_51
+                    }
+                );
+
+                // const urlJudete = "https://services6.arcgis.com/Uwg97gPMK3qqaMen/arcgis/rest/services/judete_romania/FeatureServer/0";
+
+                const urlJudete = "https://services7.arcgis.com/6qGT7aOKS4dA1OZV/arcgis/rest/services/judete1/FeatureServer/0";
+
+                const urlWindFarms = "https://services5.arcgis.com/GPDEJr05CIKpysjT/arcgis/rest/services/Wind_Farms_Romania/FeatureServer/0";
+
+                var flJudete = new FeatureLayer({
+                    url: urlJudete,
+                    title: "Judete"
+                    ,
+                    renderer: rendererJudete
+                });
+
+                var flWindFarms = new FeatureLayer({
+                    url: urlWindFarms,
+                    renderer: afisareSimboluriEoliene,
+                    title: "Parcuri eoliene"
+                });
+
+                harta.addMany([flJudete, flWindFarms]);
+
+                var sablonEolienePopUp = {
+                    title: "Parc eolian: {denumire}",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "localitate",
+                                    label: "Localitate"
+                                },
+                                {
+                                    fieldName: "proprietar",
+                                    label: "Proprietar"
+                                },
+                                {
+                                    fieldName: "tip_turbine",
+                                    label: "Tip turbine"
+                                },
+                                {
+                                    fieldName: "numar_turbine",
+                                    label: "Numar turbine"
+                                },
+                                {
+                                    fieldName: "capacitate_instalata",
+                                    label: "Capacitate instalata"
+                                },
+                                {
+                                    fieldName: "stare",
+                                    label: "Stare proiect"
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+
+                var sablonJudetePopUp = {
+                    title: "Judet: {judet}",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "resedinta",
+                                    label: "Resedinta"
+                                },
+                                {
+                                    fieldName: "orase",
+                                    label: "Orase"
+                                },
+                                {
+                                    fieldName: "municipii",
+                                    label: "Municipii"
+                                },
+                                {
+                                    fieldName: "comune",
+                                    label: "Comune"
+                                },
+                                {
+                                    fieldName: "s_ha",
+                                    label: "HA"
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                flWindFarms.popupTemplate = sablonEolienePopUp;
+                flJudete.popupTemplate = sablonJudetePopUp;
+
+                var legenda = new Legend({
+                    view: viewHarta,
+                    layerInfos: viewHarta[
+                        {
+                            layer: flJudete,
+                            title: "Judete"
+                        }
+                    ]
+                });
+                viewHarta.ui.add(legenda, "bottom-right");
+
+                var listaStraturi = new LayerList({
+                    view: viewHarta
+                });
+                viewHarta.ui.add(listaStraturi, "top-right");
+
+                var localizare = new Locate({
+                    view: viewHarta,
+                    graph: new Graphic({
+                        symbol: { type: "simple-marker" }
+                    })
+                });
+                viewHarta.ui.add(localizare, "left-bottom");
+
+                var home = new Home({
+                    view: viewHarta
+                });
+                viewHarta.ui.add(home, "top-left");
+
+                var masoaraDistante = new Measurement({
+                    view: viewHarta,
+                    activeTool: "distance",
+                    unit: "metric"
+                });
+                viewHarta.ui.add(masoaraDistante, "top-left");
+
+                var print = new Print({
+                    view: viewHarta,
+                    printServiceUrl: "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                });
+                viewHarta.ui.add(print, "bottom-left");
+
+                var compass = new Compass({
+                    view: viewHarta
+                });
+                viewHarta.ui.add(compass, "top-left");
+
+                var rights = new Attribution({
+                    view: viewHarta
+                });
+                viewHarta.ui.add(rights, "bottom-left");
+
+                // var fullScreen = new Fullscreen({
+                //     view: viewHarta
+                // });
+                // viewHarta.ui.add(fullScreen, "top-left");
+
+                // var basemap = new BasemapToggle({
+                //     view: viewHarta,
+                //     nextBasemap: "hybrid"
+                // });
+                // viewHarta.ui.add(basemap, "top-left");
+
+                var basemapGallery = new BasemapGallery({
+                    view: viewHarta,
+                    container: document.createElement("div")
+                });
+                var expandMap = new Expand({
+                    view: viewHarta,
+                    content: basemapGallery,
+                    expandIconClass: "esri-icon-basemap-gallery"
+                });
+                viewHarta.ui.add(expandMap, "top-left");
+
+                const searchWidget = new Search({
+                    view: viewHarta
+                });
+                viewHarta.ui.add(searchWidget, {
+                    position: "top-left",
+                    index: 2
+                });
+
+                // var trackWidget = new Track({
+                //     view: viewHarta
+                // });
+                // viewHarta.ui.add(trackWidget, "top-left");
+
+                const bookmarks = new Bookmarks({
+                    view: viewHarta,
+                    editingEnabled: true,
+                    bookmarkCreationOptions: {
+                        takeScreenshot: true,
+                        captureViewpoint: false,
+                        screenshotSettings: {
+                            width: 100,
+                            height: 100
+                        }
+                    }
+                });
+                viewHarta.ui.add(bookmarks, "bottom-left");
+
+                var scaraGrafica = new ScaleBar({
+                    view: viewHarta,
+                    unit: "metric",
+                    label: "Scara grafica"
+                });
+                viewHarta.ui.add(scaraGrafica, "bottom-left");
+
+                var ccWidget = new CoordinateConversion({
+                    view: viewHarta
+                });
+                viewHarta.ui.add(ccWidget, "top-left");
+
+            });
+
+    </script>
+
+</head>
+
+<body>
+    <div id="divView"></div>
+</body>
+
+</html>
